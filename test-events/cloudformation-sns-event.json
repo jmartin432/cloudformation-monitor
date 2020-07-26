@@ -1,0 +1,22 @@
+{
+  "Records": [
+    {
+      "EventSource": "aws:sns",
+      "EventVersion": "1.0",
+      "EventSubscriptionArn": "arn:aws:sns:us-east-1:406135181037:cloudformation-monitor-sns-topic:c63f1db2-08a5-4d67-b4db-344a9a59bfb1",
+      "Sns": {
+        "Type": "Notification",
+        "MessageId": "caf24ad9-7967-520b-877f-1d4e77e802c3",
+        "TopicArn": "arn:aws:sns:us-east-1:406135181037:cloudformation-monitor-sns-topic",
+        "Subject": "AWS CloudFormation Notification",
+        "Message": "StackId=\"arn:aws:cloudformation:us-east-1:406135181037:stack/static-sites-pipeline/cd88a450-ceb8-11ea-9aa2-0aa554d91bcc\"\nTimestamp=\"2020-07-26T04:53:35.693Z\"\nEventId=\"SlackRouterDeployStatusSubsciription-UPDATE_IN_PROGRESS-2020-07-26T04:53:35.693Z\"\nLogicalResourceId=\"SlackRouterDeployStatusSubsciription\"\nNamespace=\"406135181037\"\nPhysicalResourceId=\"arn:aws:sns:us-east-1:406135181037:static-sites-deploy-lambda-sns-topic:26fcd6a1-e5e9-4755-9ae7-2166b0f38c4a\"\nResourceProperties=\"{"Endpoint":"arn:aws:lambda:us-east-1:406135181037:function:static-sites-pipeline-slack-router-lambda-20200725T215316","TopicArn":"arn:aws:sns:us-east-1:406135181037:static-sites-deploy-lambda-sns-topic","Region":"us-east-1","Protocol":"lambda"}\"\nResourceStatus=\"UPDATE_IN_PROGRESS\"\nResourceStatusReason=\"Resource creation Initiated\"\nResourceType=\"AWS::SNS::Subscription\"\nStackName=\"static-sites-pipeline\"\nClientRequestToken=\"null\"\n",
+        "Timestamp": "2020-07-26T04:53:35.811Z",
+        "SignatureVersion": "1",
+        "Signature": "L1WPTJ/eaTqqG12ZNYjscaM+8ExsGfR7E3Wm/2ZXN8cyGjeZhaqeF5KG9CtZcvA4NI66KIXO3z7xgEC7YsOcvxQx2DWzs00TVYupTdk7xmXVbBywv5pm5kHWMIAvW1GnFleRClz+7xV/9onE/U/SONrhDsegE9y5CBHkBYZVtGvQFryTzQd9CcNtTihtyicBufHyGWg0M9Pe9OBYTspX8yoSWuKrfnDkWmnLI0IX/h0R9YE2tKg66YLAviWn5S9YmqxEkvGnrog03IWNqrdWypw68PMUXtnWfMXxDhWq/xDo5cDXXHdNG+aSIGTQMNnZW4PUOmQrtG4bc86B/aZjUw==",
+        "SigningCertUrl": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-a86cb10b4e1f29c941702d737128f7b6.pem",
+        "UnsubscribeUrl": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:406135181037:cloudformation-monitor-sns-topic:c63f1db2-08a5-4d67-b4db-344a9a59bfb1",
+        "MessageAttributes": {}
+      }
+    }
+  ]
+}

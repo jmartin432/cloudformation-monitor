@@ -1,0 +1,22 @@
+{
+  "name": "static-site-pipeline",
+  "version": "1.0.0",
+  "description": "CloudFormation Monitor Stack",
+  "author": "Justin Martin <info@justinlmartin.com>",
+  "private": true,
+  "scripts": {
+    "test": "mocha",
+    "updateStack": "sh scripts/update-stack.sh",
+    "createStack": "sh scripts/create-stack.sh",
+    "deleteStack": "sh scripts/delete-stack.sh",
+    "describeStack": "sh scripts/describeStack.sh",
+    "uploadFiles": "sh scripts/uploadFiles.sh"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2"
+  },
+  "engines": {},
+  "browserslist": []
+}

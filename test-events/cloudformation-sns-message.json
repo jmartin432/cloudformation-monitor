@@ -1,0 +1,14 @@
+{
+  'StackId': "'arn:aws:cloudformation:us-east-1:406135181037:stack/static-sites-pipeline/cd88a450-ceb8-11ea-9aa2-0aa554d91bcc'",
+  'Timestamp': "'2020-07-26T05:18:22.635Z'",
+  'EventId': "'SlackRouterLambda-UPDATE_IN_PROGRESS-2020-07-26T05:18:22.635Z'",
+  'LogicalResourceId': "'SlackRouterLambda'",
+  'Namespace': "'406135181037'",
+  'PhysicalResourceId': "'static-sites-pipeline-slack-router-lambda-20200725T220037'",
+  'ResourceProperties': '\'{"Role":"arn:aws:iam::406135181037:role/static-sites-pipeline-lambda-role","FunctionName":"static-sites-pipeline-slack-router-lambda-20200725T221810","MemorySize":"128","Runtime":"python3.8","Description":"Sends Pipeline Slack Notifications","Timeout":"30","Environment":{"Variables":{"SlackWebHookPath":"{{resolve:secretsmanager:slack-webhook-paths:SecretString:static-sites-pipeline}}"}},"Handler":"slack-router-lambda.handler","Code":{"S3Bucket":"static-sites-pipeline-lambdas-4b6i9m9h","S3Key":"20200725T221810/lambdas.zip"}}\'',
+  'ResourceStatus': "'UPDATE_IN_PROGRESS'",
+  'ResourceStatusReason': "'Requested update requires the creation of a new physical resource; hence creating one.'",
+  'ResourceType': "'AWS::Lambda::Function'",
+  'StackName': "'static-sites-pipeline'",
+  'ClientRequestToken': "'null'"
+}

@@ -1,0 +1,119 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation Template for Setting up SNS Topic and Lambda for Monitoring Cloud Formation Status
+
+Parameters:
+  Region:
+    Type: String
+    Default: us-east-1
+  TimeStamp:
+    Type: String
+  AccountId:
+    Type: String
+    Default: '{{resolve:ssm:account-id:1}}'
+  LambdasBucketName:
+    Type: String
+    Default: '{{resolve:ssm:cloudformation-monitor-lambdas-bucket:1}}'
+  StaticSitesPipelineSlackWebHookPath:
+    Type: String
+    Default: '{{resolve:secretsmanager:slack-webhook-paths:SecretString:static-sites-pipeline}}'
+
+Resources:
+
+# Buckets
+
+  LambdasBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref LambdasBucketName
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+
+# SNS
+
+  CloudFormationMonitorTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      DisplayName: Cloud Formation Monitor Topic
+      TopicName: cloudformation-monitor-sns-topic
+
+  SlackRouterCloudFormationMonitorSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: !GetAtt CloudFormationMonitorLambda.Arn
+      Protocol: lambda
+      Region: !Ref Region
+      TopicArn: !Ref CloudFormationMonitorTopic
+    DependsOn:
+      - CloudFormationMonitorLambda
+
+# Lambda
+
+  CloudFormationMonitorLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: !Ref LambdasBucketName
+        S3Key: !Sub ${TimeStamp}/lambdas.zip
+      FunctionName: !Sub cloudformation-monitor-lambda-${TimeStamp}
+      Environment:
+        Variables:
+          StaticSitesPipelineSlackWebHookPath: !Ref StaticSitesPipelineSlackWebHookPath
+      Handler: cloudformation-monitor.handler
+      MemorySize: 128
+      Role: !GetAtt LambdaRole.Arn
+      Runtime: python3.8
+      Timeout: 5
+      Description: Send CloudFormation Status Changes to Slack
+    DependsOn:
+      - LambdaRole
+
+  SlackRouterLambdaSNSTriggerPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName: !Ref CloudFormationMonitorLambda
+      Principal: 'sns.amazonaws.com'
+      SourceArn: !Ref CloudFormationMonitorTopic
+    DependsOn:
+      - CloudFormationMonitorLambda
+
+#Roles
+
+  LambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: cloudformation-monitor-lambda-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: cloudformation-monitor-lambda-policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: AllowLogging
+                Effect: Allow
+                Action:
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                  - 'logs:CreateLogGroup'
+                  - 'logs:DescribeLogStreams'
+                Resource:
+                  - '*'
+      Path: "/"
+
+Outputs:
+  LatestTimeStamp:
+    Value: !Ref TimeStamp
+  SnsTopicArn:
+    Value: !Ref CloudFormationMonitorTopic

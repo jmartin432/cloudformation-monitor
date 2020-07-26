@@ -13,9 +13,9 @@ Parameters:
   LambdasBucketName:
     Type: String
     Default: '{{resolve:ssm:cloudformation-monitor-lambdas-bucket:1}}'
-  StaticSitesPipelineSlackWebHookPath:
+  CloudFormationMonitorWebHookPath:
     Type: String
-    Default: '{{resolve:secretsmanager:slack-webhook-paths:SecretString:static-sites-pipeline}}'
+    Default: '{{resolve:secretsmanager:slack-webhook-paths:SecretString:cloudformation-monitor}}'
 
 Resources:
 
@@ -61,7 +61,7 @@ Resources:
       FunctionName: !Sub cloudformation-monitor-lambda-${TimeStamp}
       Environment:
         Variables:
-          StaticSitesPipelineSlackWebHookPath: !Ref StaticSitesPipelineSlackWebHookPath
+          CloudFormationMonitorWebHookPath: !Ref CloudFormationMonitorWebHookPath
       Handler: cloudformation-monitor.handler
       MemorySize: 128
       Role: !GetAtt LambdaRole.Arn

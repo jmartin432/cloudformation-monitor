@@ -6,11 +6,10 @@
   "private": true,
   "scripts": {
     "test": "mocha",
-    "updateStack": "sh scripts/update-stack.sh",
-    "createStack": "sh scripts/create-stack.sh",
-    "deleteStack": "sh scripts/delete-stack.sh",
-    "describeStack": "sh scripts/describeStack.sh",
-    "uploadFiles": "sh scripts/uploadFiles.sh"
+    "update-stack": "sh scripts/update-stack.sh",
+    "create-stack": "sh scripts/create-stack.sh",
+    "delete-stack": "sh scripts/delete-stack.sh",
+    "describe-stack": "sh scripts/describeStack.sh"
   },
   "dependencies": {},
   "devDependencies": {

@@ -8,7 +8,7 @@ from urllib.request import Request, urlopen
 from urllib.error import URLError, HTTPError
 
 webhook_base = "https://hooks.slack.com/services"
-webhook_path = os.environ['CloudFormationMonitorWebHookPath']
+webhook_path = os.environ['WEBHOOK_PATH']
 slack_message = {
     "text": "CodeBuild Status Change",
     "attachments": [

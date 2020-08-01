@@ -40,7 +40,7 @@ Resources:
       DisplayName: Cloud Formation Monitor Topic
       TopicName: cloudformation-monitor-sns-topic
 
-  SlackRouterCloudFormationMonitorSubscription:
+  CloudFormationMonitorLambdaSubscription:
     Type: AWS::SNS::Subscription
     Properties:
       Endpoint: !GetAtt CloudFormationMonitorLambda.Arn
@@ -58,10 +58,10 @@ Resources:
       Code:
         S3Bucket: !Ref LambdasBucketName
         S3Key: !Sub ${TimeStamp}/lambdas.zip
-      FunctionName: !Sub cloudformation-monitor-lambda-${TimeStamp}
+      FunctionName: cloudformation-monitor-lambda
       Environment:
         Variables:
-          CloudFormationMonitorWebHookPath: !Ref CloudFormationMonitorWebHookPath
+          WEBHOOK_PATH: !Ref CloudFormationMonitorWebHookPath
       Handler: cloudformation-monitor.handler
       MemorySize: 128
       Role: !GetAtt LambdaRole.Arn
@@ -71,7 +71,7 @@ Resources:
     DependsOn:
       - LambdaRole
 
-  SlackRouterLambdaSNSTriggerPermission:
+  CloudFormationMonitorSNSTriggerPermission:
     Type: AWS::Lambda::Permission
     Properties:
       Action: 'lambda:InvokeFunction'
@@ -108,6 +108,32 @@ Resources:
                   - 'logs:PutLogEvents'
                   - 'logs:CreateLogGroup'
                   - 'logs:DescribeLogStreams'
+                Resource:
+                  - '*'
+      Path: "/"
+
+  EventsRuleRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: cloudformation-events-rule-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - events.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Policies:
+        - PolicyName: cloudformation-events-rule-policy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: AllowLambdaInvoke
+                Effect: Allow
+                Action:
+                  - 'lambda:InvokeFunction'
                 Resource:
                   - '*'
       Path: "/"
